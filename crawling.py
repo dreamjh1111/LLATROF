@@ -62,8 +62,13 @@ def get_total_page_counts():
     return int(page_counts)
 
 def write_data_from_bottom():
-    scroll_to_bottom()
-    f = open('data.csv', 'w')
-    writer = csv.writer(f)
-    writer.writerows(get_goods_data())
-    f.close()
+    for page in range(2, get_total_page_counts()):
+        scroll_to_bottom()
+        f = open('data.csv', 'w')
+        writer = csv.writer(f)
+        writer.writerows(get_goods_data())
+        f.close()
+
+        page_url = f'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page={page}&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
+        driver.get(page_url)
+    
