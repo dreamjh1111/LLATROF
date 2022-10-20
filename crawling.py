@@ -2,7 +2,8 @@ import csv
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 # Hide Chrome
 # options = webdriver.ChromeOptions()
 # options.add_argument('headless')
@@ -56,6 +57,7 @@ def get_goods_data():
     return goods_data_lst
 
 def get_total_page_counts():
+    WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'totalPagingNum')))
     page_counts = driver.find_element(By.CLASS_NAME, 'totalPagingNum').text
     return int(page_counts)
 
