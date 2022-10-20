@@ -43,11 +43,9 @@ def get_goods_img_url(goods):
     goods_img_url = get_goods_img_url.get_attribute('src')
     return goods_img_url
 
-def get_goods_data():
-    goods_data_lst = [
-        ['id', 'goods_url', 'goods_img_url'],
-    ]
-    goods_num = 1
+def get_goods_data(start_num):
+    goods_data_lst = []
+    goods_num = start_num
     for goods in get_goods_list():
         goods_url = get_goods_url(goods)
         goods_img_url = get_goods_img_url(goods)
@@ -62,12 +60,22 @@ def get_total_page_counts():
     return int(page_counts)
 
 def write_data_from_bottom():
+    f = open('data.csv','w')
+    writer = csv.writer(f)
+    writer.writerow(['id', 'goods_url', 'goods_img_url'])
+    f.close()
+
+    start_num = 1
     for page in range(2, get_total_page_counts()):
         scroll_to_bottom()
-        f = open('data.csv', 'w')
+
+        f = open('data.csv','a')
         writer = csv.writer(f)
-        writer.writerows(get_goods_data())
+        writer.writerows(get_goods_data(start_num))
         f.close()
+
+        total_goods_count = len(get_goods_list())
+        start_num += total_goods_count
 
         page_url = f'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page={page}&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
         driver.get(page_url)
