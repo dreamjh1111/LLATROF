@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>INDEX</h1>
+<div>
+    {% for article in articles %}
+        <a href="{{ article.goods_url }}">
+            <img src="{{ article.goods_img_url }}" >
+        </a>
+    {% endfor %}
+</div>
+{% endblock content %}
