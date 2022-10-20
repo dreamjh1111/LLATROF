@@ -19,3 +19,7 @@ def scroll_to_bottom():
             break
         else:
             before_location = driver.execute_script("return window.pageYOffset")
+
+def get_goods_list():
+    goods_location = driver.find_elements(By.CSS_SELECTOR, '#goods_list > div.boxed-list-wrapper > div.list-box.box > #searchList > li')
+    return goods_location
