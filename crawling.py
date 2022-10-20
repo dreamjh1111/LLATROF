@@ -59,6 +59,10 @@ def get_total_page_counts():
     page_counts = driver.find_element(By.CLASS_NAME, 'totalPagingNum').text
     return int(page_counts)
 
+def get_page_url(page):
+    url = f'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page={page}&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
+    return url
+
 def get_total_data():
     f = open('data.csv','w')
     writer = csv.writer(f)
@@ -77,5 +81,5 @@ def get_total_data():
         total_goods_count = len(get_goods_list())
         start_num += total_goods_count
 
-        page_url = f'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page={page}&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
+        page_url = get_page_url(page) 
         driver.get(page_url)
