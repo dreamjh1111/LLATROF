@@ -55,9 +55,12 @@ def get_goods_data():
         goods_num += 1
     return goods_data_lst
 
+def get_total_page_counts():
+    page_counts = driver.find_element(By.CLASS_NAME, 'totalPagingNum').text
+    return int(page_counts)
+
 def write_data_from_bottom():
     scroll_to_bottom()
-
     f = open('data.csv', 'w')
     writer = csv.writer(f)
     writer.writerows(get_goods_data())
