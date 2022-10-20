@@ -33,3 +33,16 @@ def get_goods_img_url(goods):
     get_goods_img_url = goods.find_element(By.CSS_SELECTOR, f'div.li_inner > div.list_img > a > img')
     goods_img_url = get_goods_img_url.get_attribute('src')
     return goods_img_url
+
+def get_goods_data():
+    goods_data_lst = [
+        ['id', 'goods_url', 'goods_img_url'],
+    ]
+    goods_num = 1
+    for goods in get_goods_list():
+        goods_url = get_goods_url(goods)
+        goods_img_url = get_goods_img_url(goods)
+        goods_data = [goods_num, goods_url, goods_img_url]
+        goods_data_lst.append(goods_data)
+        goods_num += 1
+    return goods_data_lst
