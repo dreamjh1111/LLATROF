@@ -3,9 +3,17 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+# Hide Chrome
+# options = webdriver.ChromeOptions()
+# options.add_argument('headless')
+# options.add_argument('window-size=1920x1080')
+# options.add_argument("disable-gpu")
+# driver = webdriver.Chrome("/Users/heyon/Desktop/JAY/LLATROF/chromedriver", chrome_options=options)
+
 driver = webdriver.Chrome("/Users/heyon/Desktop/JAY/LLATROF/chromedriver")
 URL = 'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page=1&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
 driver.get(URL)
+driver.find_element(By.XPATH, '/html/body/div[2]/div[3]/div[12]/button[2]').click()
 
 def scroll_to_bottom():
     before_location = driver.execute_script("return window.pageYOffset")
