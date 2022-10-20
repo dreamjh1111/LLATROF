@@ -23,3 +23,13 @@ def scroll_to_bottom():
 def get_goods_list():
     goods_location = driver.find_elements(By.CSS_SELECTOR, '#goods_list > div.boxed-list-wrapper > div.list-box.box > #searchList > li')
     return goods_location
+
+def get_goods_url(goods):
+    get_goods_url = goods.find_element(By.CSS_SELECTOR, f'div.li_inner > div.list_img > a')
+    goods_url = get_goods_url.get_attribute('href')
+    return goods_url
+
+def get_goods_img_url(goods):
+    get_goods_img_url = goods.find_element(By.CSS_SELECTOR, f'div.li_inner > div.list_img > a > img')
+    goods_img_url = get_goods_img_url.get_attribute('src')
+    return goods_img_url
