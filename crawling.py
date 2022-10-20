@@ -46,3 +46,11 @@ def get_goods_data():
         goods_data_lst.append(goods_data)
         goods_num += 1
     return goods_data_lst
+
+def write_data_from_bottom():
+    scroll_to_bottom()
+
+    f = open('data.csv', 'w')
+    writer = csv.writer(f)
+    writer.writerows(get_goods_data())
+    f.close()
