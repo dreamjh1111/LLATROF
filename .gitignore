@@ -3,7 +3,8 @@
 
 ### PRIVATE ###
 secrets.py
-
+LLATROF.pem
+LLATROF.pem.zip
 
 ### Django ###
 *.log
