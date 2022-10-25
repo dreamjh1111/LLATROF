@@ -40,20 +40,6 @@ def get_goods_img_url():
     goods_img_url = get_goods_img_url.get_attribute('src')
     return goods_img_url
 
-<<<<<<< HEAD
-def get_goods_data(start_num):
-    goods_data_lst = []
-    goods_num = start_num
-    for goods in get_goods_list():
-        goods_url = get_goods_url(goods)
-        goods_img_url = get_goods_img_url(goods)
-        goods_data = [goods_num, goods_url, goods_img_url]
-        goods_data_lst.append(goods_data)
-        goods_num += 1
-    return goods_data_lst
-
-=======
->>>>>>> 5a1cc53 (feat: 전체 물품 디테일 정보 가져오는 기능 구현)
 def get_total_page_counts():
     WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'totalPagingNum')))
     page_counts = driver.find_element(By.CLASS_NAME, 'totalPagingNum').text
@@ -72,7 +58,8 @@ def get_goods_category():
     return goods_category
 
 def get_goods_brand():
-    temp_goods_brand = get_goods_category[2].text
+    get_goods_brand = driver.find_elements(By.CSS_SELECTOR, '.section_product_summary > div.product_info > p > a')        
+    temp_goods_brand = get_goods_brand[2].text
     goods_brand = temp_goods_brand[1:len(temp_goods_brand)-1]
     return goods_brand
 
@@ -95,15 +82,11 @@ def get_to_next_page(url):
 def get_goods_total_url_list():
     total_goods_url_list = []
     for page in range(2, get_total_page_counts()):
-<<<<<<< HEAD
-        scroll_to_bottom()
-=======
         total_goods_url_list += get_goods_url_list()
         
         next_page_url = get_page_url(page)
         get_to_next_page(next_page_url)
     return total_goods_url_list
->>>>>>> 5a1cc53 (feat: 전체 물품 디테일 정보 가져오는 기능 구현)
 
 #######################################
 #
