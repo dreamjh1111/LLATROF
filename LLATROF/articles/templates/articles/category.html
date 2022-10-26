@@ -1,6 +1,6 @@
 <h1>Category</h1>
 <div>
-    {% for category in cetegories %}
+    {% for category in category_list %}
         <li> 
             <a href="{% url 'articles:category_goods' category %}">
             {{ category }}
