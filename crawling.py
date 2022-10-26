@@ -52,9 +52,21 @@ def get_goods_url_list():
         goods_url_list.append(goods_url)
     return goods_url_list
 
+#######################################
+#
+# by. JaeHyeon (22/10/27)
+# get_goods_category = goods detail - category 를 반환하는 함수
+# args ->
+# goods_category = 해당 goods 의 category 를 나타내는 변수
+# '/' 로 분기한 이유는, 트레이닝/조거 같은 경우 동일한 goods 에 트레이닝, 조거
+#  두 개로 구분 지어서 category 분류해야함
+#######################################
 def get_goods_category():
     get_goods_category = driver.find_elements(By.CSS_SELECTOR, '.section_product_summary > div.product_info > p > a')        
-    goods_category = get_goods_category[1].text.split(" ")[0]
+    goods_category = get_goods_category[1].text.split(' ')[0]
+    if '/' in goods_category:
+        goods_category = goods_category.split('/')
+        return goods_category
     return goods_category
 
 def get_goods_brand():
@@ -93,26 +105,34 @@ def get_goods_total_url_list():
 # by. JayHyeon (22/1O/25)
 # get_total_goods_detail_info = 모든 물품의 url 이 담긴 List 를 순회하면서 물품 별 상세 정보를 반환하기 위한 함수
 # args ->
-# driver.get(goods_url) : 해당 url 로 chrome driver 가 이동
-# temp_goods_detail_info : 상품별 info 를 2차원 배열(total_goods_detail_info_list) 에 담기위한 임시 List
-# enumerate(goods_total_url_list) : index 값을 물품 record 의 PK 로 사용하기 위한 변수
-# WebDriverWait : 해당 Selector 가 Loading 될 때 까지 기다리게 하는 인스턴스
+# goods_id = Table - goods PK
+# driver.get(goods_url) = 해당 url 로 chrome driver 가 이동
+# temp_goods_detail_info = 상품별 info 를 2차원 배열(total_goods_detail_info_list) 에 담기위한 임시 List
+# type(goods_category) = 만약, 트레이닝/조거 goods 경우 [트레이닝, 조거] 로 goods_category 에 할당됨, 이를 구분하기 위함
 #
 #######################################
 def get_total_goods_detail_info(goods_total_url_list):
     goods_detail_info_list = [
         ['id', 'goods_url', 'goods_img_url', 'goods_category', 'goods_brand'],
     ]
-
-    for goods_id, goods_url in enumerate(goods_total_url_list):
+    goods_id = 1
+    for goods_url in goods_total_url_list:
         driver.get(goods_url)
 
         goods_img_url = get_goods_img_url()
         goods_category = get_goods_category()
         goods_brand = get_goods_brand()
-
-        temp_goods_detail_info = [goods_id + 1, goods_url, goods_img_url, goods_category, goods_brand]
-        goods_detail_info_list.append(temp_goods_detail_info)
+        
+        if type(goods_category) == list:
+            L = len(goods_category)
+            for idx in range(L):
+                temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category[idx], goods_brand]
+                goods_detail_info_list.append(temp_goods_detail_info)
+                goods_id += 1
+        else:
+            temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category, goods_brand]
+            goods_detail_info_list.append(temp_goods_detail_info)
+            goods_id += 1
     return goods_detail_info_list
 
 #######################################
@@ -120,7 +140,7 @@ def get_total_goods_detail_info(goods_total_url_list):
 # by. JayHyeon (22/1O/25)
 # write_goods_total_data = 모든 물품의 상세정보가 담긴 리스트를 csv 파일로 작성하기 위한 함수
 # args ->
-# wirte.writerows() : List 타입으로 주어지는 인자의 모든 값을 작성하는 함수
+# wirte.writerows() = List 타입으로 주어지는 인자의 모든 값을 작성하는 함수
 #
 #######################################
 def write_goods_total_data(goods_total_data):
