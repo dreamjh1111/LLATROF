@@ -31,3 +31,24 @@ def category_goods(request, category):
         'goods_list': goods_list,
     }
     return render(request, 'articles/category.html', context)
+
+def brand(request):
+    brands = Article.objects.values('goods_brand').distinct()
+    brands_list = []
+    for brand in brands:
+        brand = brand['goods_brand']
+        brands_list.append(brand)
+    context = {
+        'brands_list': brands_list,
+    }
+    
+    return render(request, 'articles/brand.html', context)
+
+def brand_goods(request, brand):
+    goods_list = Article.objects.all().filter(goods_brand=brand)
+    
+    context = {
+        'goods_list': goods_list,
+    }
+    print(goods_list)
+    return render(request, 'articles/brand.html', context)
