@@ -116,24 +116,26 @@ def get_total_goods_detail_info(goods_total_url_list):
         ['id', 'goods_url', 'goods_img_url', 'goods_category', 'goods_brand'],
     ]
     goods_id = 1
-    for goods_url in goods_total_url_list:
-        driver.get(goods_url)
+    try:
+        for goods_url in goods_total_url_list:
+            driver.get(goods_url)
 
-        goods_img_url = get_goods_img_url()
-        goods_category = get_goods_category()
-        goods_brand = get_goods_brand()
-        
-        if type(goods_category) == list:
-            L = len(goods_category)
-            for idx in range(L):
-                temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category[idx], goods_brand]
+            goods_img_url = get_goods_img_url()
+            goods_category = get_goods_category()
+            goods_brand = get_goods_brand()
+            
+            if type(goods_category) == list:
+                L = len(goods_category)
+                for idx in range(L):
+                    temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category[idx], goods_brand]
+                    goods_detail_info_list.append(temp_goods_detail_info)
+                    goods_id += 1
+            else:
+                temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category, goods_brand]
                 goods_detail_info_list.append(temp_goods_detail_info)
                 goods_id += 1
-        else:
-            temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category, goods_brand]
-            goods_detail_info_list.append(temp_goods_detail_info)
-            goods_id += 1
-    return goods_detail_info_list
+    except:
+        return goods_detail_info_list
 
 #######################################
 #
