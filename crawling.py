@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import csv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -148,7 +150,7 @@ def get_total_goods_detail_info(goods_total_url_list):
 def write_goods_total_data(goods_total_data):
     total_goods_detail_info_list = goods_total_data
 
-    f = open('data.csv','a')
+    f = open('LLATROF/data.csv','a', encoding='utf-8')
     writer = csv.writer(f)
     writer.writerows(total_goods_detail_info_list)
     f.close()
