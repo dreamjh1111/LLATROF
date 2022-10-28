@@ -2,9 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,django,visualstudiocode
 
 ### PRIVATE ###
-secrets.py
-LLATROF.pem
-LLATROF.pem.zip
 
 ### Django ###
 *.log
