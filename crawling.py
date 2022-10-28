@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import csv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -37,7 +35,6 @@ def get_goods_url(goods):
     return goods_url
 
 def get_goods_img_url():
-    WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.ID, 'detail_bigimg')))
     get_goods_img_url = driver.find_element(By.CSS_SELECTOR, '#detail_bigimg > .product-img > img')
     goods_img_url = get_goods_img_url.get_attribute('src')
     return goods_img_url
@@ -61,14 +58,14 @@ def get_goods_url_list():
 # args ->
 # goods_category = 해당 goods 의 category 를 나타내는 변수
 # '/' 로 분기한 이유는, 트레이닝/조거 같은 경우 동일한 goods 에 트레이닝, 조거
-#  두 개로 구분 지어서 category 분류해야함
+# 구분 지은 후 트레이닝만 category 분류해야함
 #######################################
 def get_goods_category():
     get_goods_category = driver.find_elements(By.CSS_SELECTOR, '.section_product_summary > div.product_info > p > a')        
     goods_category = get_goods_category[1].text.split(' ')[0]
     if '/' in goods_category:
         goods_category = goods_category.split('/')
-        return goods_category
+        return goods_category[0]
     return goods_category
 
 def get_goods_brand():
@@ -117,27 +114,17 @@ def get_total_goods_detail_info(goods_total_url_list):
     goods_detail_info_list = [
         ['id', 'goods_url', 'goods_img_url', 'goods_category', 'goods_brand'],
     ]
-    goods_id = 1
-    try:
-        for goods_url in goods_total_url_list:
-            driver.get(goods_url)
+    for goods_id, goods_url in enumerate(goods_total_url_list):
+        driver.get(goods_url)
 
-            goods_img_url = get_goods_img_url()
-            goods_category = get_goods_category()
-            goods_brand = get_goods_brand()
-            
-            if type(goods_category) == list:
-                L = len(goods_category)
-                for idx in range(L):
-                    temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category[idx], goods_brand]
-                    goods_detail_info_list.append(temp_goods_detail_info)
-                    goods_id += 1
-            else:
-                temp_goods_detail_info = [goods_id, goods_url, goods_img_url, goods_category, goods_brand]
-                goods_detail_info_list.append(temp_goods_detail_info)
-                goods_id += 1
-    except:
-        return goods_detail_info_list
+        goods_img_url = get_goods_img_url()
+        goods_category = get_goods_category()
+        goods_brand = get_goods_brand()
+        
+        temp_goods_detail_info = [goods_id + 1, goods_url, goods_img_url, goods_category, goods_brand]
+        goods_detail_info_list.append(temp_goods_detail_info)
+        print(temp_goods_detail_info, len(goods_detail_info_list))
+    return goods_detail_info_list
 
 #######################################
 #
@@ -150,7 +137,7 @@ def get_total_goods_detail_info(goods_total_url_list):
 def write_goods_total_data(goods_total_data):
     total_goods_detail_info_list = goods_total_data
 
-    f = open('LLATROF/data.csv','a', encoding='utf-8')
+    f = open('./data.csv','a')
     writer = csv.writer(f)
     writer.writerows(total_goods_detail_info_list)
     f.close()
