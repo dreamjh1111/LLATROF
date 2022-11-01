@@ -66,11 +66,10 @@ def write_category():
     dir_path = f'./LLATROF/category/{now_day}'
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
-    else:
-        w = open(f'{dir_path}/category.csv','w')
-        writer = csv.writer(w)
-        writer.writerows(category_list)
-        w.close()
+    w = open(f'{dir_path}/category.csv','w')
+    writer = csv.writer(w)
+    writer.writerows(category_list)
+    w.close()
 
 def write_brand():
     csv_file = open('./LLATROF/data.csv','r',encoding='utf-8')
@@ -92,11 +91,10 @@ def write_brand():
     dir_path = f'./LLATROF/brand/{now_day}'
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
-    else:
-        w = open(f'{dir_path}/brand.csv','w')
-        writer = csv.writer(w)
-        writer.writerows(brand_list)
-        w.close()
+    w = open(f'{dir_path}/brand.csv','w')
+    writer = csv.writer(w)
+    writer.writerows(brand_list)
+    w.close()
 
 #######################################
 #
@@ -116,10 +114,7 @@ def import_data():
 
     table_name = 'articles_article'
     for goods in goods_list:
-        goods_url = goods[1]
-        goods_img_url = goods[2]
-        goods_category = goods[3]
-        goods_brand = goods[4]
+        goods_url, goods_img_url, goods_category, goods_brand = goods
         fields_value = (goods_url, goods_img_url, goods_brand, goods_category)
 
         cursor.execute(f'INSERT INTO {table_name} (goods_url, goods_img_url, goods_brand, goods_category) VALUES (?, ?, ?, ?)',
