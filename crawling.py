@@ -20,7 +20,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # URL = driver 가 최초로 이동하는 url
 # driver.find_element(By.XPATH, '/html/body/div[2]/div[3]/div[12]/button[2]').click() = 무신사 홈페이지의 남성 카테고리 Selector
 #######################################
-driver = webdriver.Chrome('../chromedriver')
+driver = webdriver.Chrome('./chromedriver')
 URL = 'https://www.musinsa.com/categories/item/003?d_cat_cd=003&brand=&list_kind=small&sort=pop_category&sub_sort=&page=1&display_cnt=90&group_sale=&exclusive_yn=&sale_goods=&timesale_yn=&ex_soldout=&kids=&color=&price1=&price2=&shoeSizeOption=&tags=&campaign_id=&includeKeywords=&measure=measure_5%5E110%5E120'
 driver.get(URL)
 driver.find_element(By.XPATH, '/html/body/div[2]/div[3]/div[12]/button[2]').click()
@@ -104,40 +104,19 @@ def get_goods_total_url_list():
 # by. JayHyeon (22/1O/25)
 # get_total_goods_detail_info = 모든 물품의 url 이 담긴 List 를 순회하면서 물품 별 상세 정보를 반환하기 위한 함수
 # args ->
-# goods_id = Table - goods PK
 # driver.get(goods_url) = 해당 url 로 chrome driver 가 이동
 # temp_goods_detail_info = 상품별 info 를 2차원 배열(total_goods_detail_info_list) 에 담기위한 임시 List
-# type(goods_category) = 만약, 트레이닝/조거 goods 경우 [트레이닝, 조거] 로 goods_category 에 할당됨, 이를 구분하기 위함
 #
 #######################################
 def get_total_goods_detail_info(goods_total_url_list):
-    goods_detail_info_list = [
-        ['id', 'goods_url', 'goods_img_url', 'goods_category', 'goods_brand'],
-    ]
-    for goods_id, goods_url in enumerate(goods_total_url_list):
+    goods_detail_info_list = []
+    for goods_url in goods_total_url_list:
         driver.get(goods_url)
 
         goods_img_url = get_goods_img_url()
         goods_category = get_goods_category()
         goods_brand = get_goods_brand()
         
-        temp_goods_detail_info = [goods_id + 1, goods_url, goods_img_url, goods_category, goods_brand]
+        temp_goods_detail_info = [goods_url, goods_img_url, goods_category, goods_brand]
         goods_detail_info_list.append(temp_goods_detail_info)
-        print(temp_goods_detail_info, len(goods_detail_info_list))
     return goods_detail_info_list
-
-#######################################
-#
-# by. JayHyeon (22/1O/25)
-# write_goods_total_data = 모든 물품의 상세정보가 담긴 리스트를 csv 파일로 작성하기 위한 함수
-# args ->
-# wirte.writerows() = List 타입으로 주어지는 인자의 모든 값을 작성하는 함수
-#
-#######################################
-def write_goods_total_data(goods_total_data):
-    total_goods_detail_info_list = goods_total_data
-
-    f = open('./data.csv','a')
-    writer = csv.writer(f)
-    writer.writerows(total_goods_detail_info_list)
-    f.close()
