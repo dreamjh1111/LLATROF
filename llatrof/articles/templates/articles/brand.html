@@ -1,0 +1,18 @@
+<h1>Brand</h1>
+<div>
+    {% for brand in brands_list %}
+        <li> 
+            <a href="{% url 'articles:category_brand' brand %}">
+            {{ brand }}
+        </a> 
+        </li>
+    {% endfor %}
+</div>
+
+<div>
+    {% for goods in goods_list %}
+        <a href="{{ goods.goods_url }}">
+            <img src="{{ goods.goods_img_url }}" alt="">
+        </a>
+    {% endfor %}
+</div>
