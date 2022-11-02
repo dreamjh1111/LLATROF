@@ -29,7 +29,6 @@ def category(request):
     context = {
         'category_list': category_list,
     }
-    
     return render(request, 'articles/category.html', context)
 
 #######################################
@@ -66,7 +65,6 @@ def brand(request):
     context = {
         'brands_list': brands_list,
     }
-    
     return render(request, 'articles/brand.html', context)
 
 #######################################

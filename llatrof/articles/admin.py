@@ -5,3 +5,4 @@ from .models import Article, Category, Brand
 admin.site.register(Article)
 admin.site.register(Category)
 admin.site.register(Brand)
+
