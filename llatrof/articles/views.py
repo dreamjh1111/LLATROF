@@ -1,5 +1,8 @@
 from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import Article
+from .serializers import ArticleListSerializer
 
 # Create your views here.
 def index(request):
@@ -82,3 +85,15 @@ def brand_goods(request, brand):
         'goods_list': goods_list,
     }
     return render(request, 'articles/brand.html', context)
+
+#######################################
+#
+# by. JaeHyeon (22/1O/26)
+# articles_list = Serializing Article Records
+#
+#######################################
+@api_view(['GET'])
+def articles_list(request):
+    articles = Article.objects.all()
+    serializer = ArticleListSerializer(articles, many=True)
+    return Response(serializer.data)
