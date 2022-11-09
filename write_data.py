@@ -29,7 +29,7 @@ now_day = get_now_day()
 def write_goods_total_data(goods_total_data):
     total_goods_detail_info_list = goods_total_data
     
-    dir_path = f'./LLATROF/data/{now_day}'
+    dir_path = f'./llatrof/data/{now_day}'
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
 
@@ -47,13 +47,13 @@ def write_goods_total_data(goods_total_data):
 #
 #######################################
 def write_category():
-    csv_file = open('./LLATROF/data.csv','r',encoding='utf-8')
+    csv_file = open('./llatrof/data.csv','r',encoding='utf-8')
     f = csv.reader(csv_file)
 
     goods_list = list(f)
     category_set = set()
     for goods in goods_list:
-        category = goods[3]
+        category = goods[2]
         category_set.add(category)
 
     category_list = [
@@ -63,7 +63,7 @@ def write_category():
         record = [category_num + 1, category]
         category_list.append(record)
 
-    dir_path = f'./LLATROF/category/{now_day}'
+    dir_path = f'./llatrof/category/{now_day}'
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
     w = open(f'{dir_path}/category.csv','w')
@@ -72,13 +72,13 @@ def write_category():
     w.close()
 
 def write_brand():
-    csv_file = open('./LLATROF/data.csv','r',encoding='utf-8')
+    csv_file = open('./llatrof/data.csv','r',encoding='utf-8')
     f = csv.reader(csv_file)
     
     goods_list = list(f)
     brand_set = set()
     for goods in goods_list:
-        brand = goods[4]
+        brand = goods[3]
         brand_set.add(brand)
 
     brand_list = [
@@ -88,7 +88,7 @@ def write_brand():
         record = [brand_num + 1, brand]
         brand_list.append(record)
     
-    dir_path = f'./LLATROF/brand/{now_day}'
+    dir_path = f'./llatrof/brand/{now_day}'
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
     w = open(f'{dir_path}/brand.csv','w')
@@ -105,11 +105,11 @@ def write_brand():
 # DB 에 record 추가하는 로직으로써 main.py 에 기재 X
 #######################################
 def import_data():
-    csv_file = open('./LLATROF/data.csv','r',encoding='utf-8')
+    csv_file = open('./llatrof/data.csv','r',encoding='utf-8')
     f = csv.reader(csv_file)
 
     goods_list = list(f)
-    db = sqlite3.connect('./LLATROF/db.sqlite3')
+    db = sqlite3.connect('./llatrof/db.sqlite3')
     cursor = db.cursor()
 
     table_name = 'articles_article'
