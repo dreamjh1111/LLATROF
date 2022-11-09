@@ -1,4 +1,3 @@
-import csv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # options.add_argument('headless')
 # options.add_argument('window-size=1920x1080')
 # options.add_argument("disable-gpu")
-# driver = webdriver.Chrome("/Users/heyon/Desktop/JAY/LLATROF/chromedriver", chrome_options=options)
+# driver = webdriver.Chrome("./chromedriver", chrome_options=options)
 
 #######################################
 #
